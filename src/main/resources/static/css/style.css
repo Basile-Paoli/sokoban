@@ -1,0 +1,41 @@
+.line {
+    display: flex;
+    line-height: 0;
+}
+
+.tile {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+}
+
+.floor {
+    background-color: #5d9431;
+}
+
+.player {
+    background-image: url('/img/player.png');
+}
+
+.storage {
+    background-color: orange;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.box {
+    background-image: url('/img/box.png');
+}
+
+.boxstored {
+    background-image: url('/img/box.png');
+    filter: brightness(50%)
+}
+
+.nothing {
+    background-color: white;
+}
+
+.wall {
+    background-image: url('/img/wall.png');
+}

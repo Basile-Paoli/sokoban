@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sokoban</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+    </script>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <script>
+        document.addEventListener('keypress', (event) => {
+            if (event.key === 'z') {
+                document.getElementById("up").click();
+            }
+            else if (event.key === 's') {
+                document.getElementById("down").click();
+            }
+            else if (event.key === 'q') {
+                document.getElementById("left").click();
+            }
+            else if (event.key === 'd') {
+                document.getElementById("right").click();
+            }
+        });
+    </script>
+</head>
+<body>
+
+<div th:fragment="map" id="map">
+    <div th:each="line : ${Tiles}" class="line">
+        <th:block th:each="block : ${line}" style="width: 20px; height:20px; display:inline-block">
+                <div class="tile" th:classappend="${block}"></div>
+            </th:block>
+        </th:block>
+    </div>
+</div>
+
+<form th:action="@{/}" method="post">
+    <button id="up" state="submit" th:name="move" th:value="Up">Top</button>
+    <button id="down" state="submit" th:name="move" th:value="Down">Bottom</button>
+    <button id="left" state="submit" th:name="move" th:value="Left">Left</button>
+    <button id="right" state="submit" th:name="move" th:value="Right">Right</button>
+</form>
+</body>
+</html>
