@@ -30,12 +30,9 @@ public class MapBuilder {
 
     private static State charToState(char c) {
         return switch (c) {
-            case '@' -> State.Player;
             case '#' -> State.Wall;
-            case ' ' -> State.Empty;
-            case '$' -> State.Box;
-            case '.' -> State.Storage;
-            default -> throw new IllegalArgumentException("Unknown character: " + c);
+            case '.' | '!' -> State.Storage;
+            default -> State.Empty;
         };
     }
 }
