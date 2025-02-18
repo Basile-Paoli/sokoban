@@ -43,12 +43,22 @@ public class TestMap {
     }
 
     @Test
-    public void TestWallTrue() {
+    public void TestIsWall() {
         Assertions.assertTrue(map.isWall(new Position(0, 0)), "La position doit être un mur");
     }
 
     @Test
-    public void TestWallFalse() {
+    public void TestIsNotWall() {
         Assertions.assertFalse(map.isWall(new Position(1, 1)), "La position ne doit pas être un mur");
+    }
+
+    @Test
+    public void TestIsInside() {
+        Assertions.assertTrue(map.inside(new Position(0, 0)), "La position doit être a l'intérieur de la map");
+    }
+
+    @Test
+    public void TestIsNotInside() {
+        Assertions.assertFalse(map.inside(new Position(12, 42)), "La position ne doit pas être en dehors de la map");
     }
 }
