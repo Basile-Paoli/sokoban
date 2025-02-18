@@ -52,4 +52,48 @@ public class Sokoban {
     public Size getSize() {
         return map.size();
     }
+
+    public boolean move(Tile tile, Direction direction) throws IllegalArgumentException {
+        Position currentPosition = tile.position();
+        Position newPosition = switch (direction) {
+            case UP -> new Position(currentPosition.x(), currentPosition.y() - 1);
+            case DOWN -> new Position(currentPosition.x(), currentPosition.y() + 1);
+            case LEFT -> new Position(currentPosition.x() - 1, currentPosition.y());
+            case RIGHT -> new Position(currentPosition.x() + 1, currentPosition.y());
+            default -> throw new IllegalArgumentException("Direction invalide");
+        };
+
+        if (this.map.isWall(tile.position())) {
+            throw new IllegalArgumentException("On ne peut pas déplacer un mur");
+        }
+
+        if (this.map.isWall(newPosition)) {
+            throw new IllegalArgumentException("On ne peut pas déplacer quelque chose dans un mur");
+        }
+
+        if (this.map.inside(newPosition)) {
+            throw new IllegalArgumentException("On ne peut pas déplacer quelque en dehors de la map");
+        }
+
+        if (boxes.contains(newPosition)) {
+            Tile boxTile = new Tile(newPosition, State.Box);
+            if (!move(boxTile, direction)) {
+                return false;
+            }
+        }
+
+        // Joueur
+        if (currentPosition.equals(this.player)) {
+            this.player = newPosition;
+            return true;
+        }
+
+        // Boites
+        if (boxes.contains(currentPosition)) {
+            boxes.remove(currentPosition);
+            boxes.add(newPosition);
+            return true;
+        }
+        return false;
+    }
 }
