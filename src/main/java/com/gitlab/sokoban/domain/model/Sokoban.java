@@ -6,6 +6,7 @@ public class Sokoban {
     private Map map;
     private List<Position> boxes;
     private Position player;
+    private boolean isAlreadyPousser = false;
 
     public Sokoban(Map map, List<Position> boxes, Position player) {
         this.map = map;
@@ -75,9 +76,11 @@ public class Sokoban {
             throw new IllegalArgumentException("On ne peut pas déplacer quelque en dehors de la map");
         }
 
-        if (boxes.contains(newPosition)) {
+        if (boxes.contains(newPosition) && !isAlreadyPousser) {
             Tile boxTile = new Tile(newPosition, State.Box);
+            isAlreadyPousser = true;
             if (!move(boxTile, direction)) {
+                isAlreadyPousser = false;
                 return false;
             }
         }
