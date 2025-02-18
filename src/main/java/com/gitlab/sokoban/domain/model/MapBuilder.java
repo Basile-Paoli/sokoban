@@ -23,9 +23,10 @@ public class MapBuilder {
     }
 
     public static Map build(String mapText) {
-        int size = mapText.lines().findFirst().orElseThrow().length();
+        int width = mapText.lines().findFirst().orElseThrow().length();
+        int height = (int) mapText.lines().count();
         List<Tile> tiles = toTiles(mapText);
-        return new Map(size, tiles);
+        return new Map(new Size(width, height), tiles);
     }
 
     private static State charToState(char c) {

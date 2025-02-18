@@ -1,13 +1,9 @@
 package com.gitlab.sokoban.domain;
 
-import com.gitlab.sokoban.domain.model.Map;
-import com.gitlab.sokoban.domain.model.Position;
-import com.gitlab.sokoban.domain.model.State;
-import com.gitlab.sokoban.domain.model.Tile;
+import com.gitlab.sokoban.domain.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,10 +47,10 @@ public class TestMap {
                 tile7, tile8, tile9, tile7, tile8, tile9
         ));
 
-        map = new Map(3, listOfTile);
-        map2 = new Map(3, listOfTile);
-        map3 = new Map(3, listOfTile2);
-        map3 = new Map(4, listOfTile3);
+        map = new Map(new Size(3, 3), listOfTile);
+        map2 = new Map(new Size(3, 3), listOfTile);
+        map3 = new Map(new Size(3, 3), listOfTile2);
+        map3 = new Map(new Size(3, 3), listOfTile3);
     }
 
     @Test
@@ -86,6 +82,7 @@ public class TestMap {
     public void TestMapIsTilesNotEquals() {
         Assertions.assertNotEquals(map, map3);
     }
+
     @Test
     public void TestMapIsSizeAndTilesNotEquals() {
         Assertions.assertNotEquals(map, map4);

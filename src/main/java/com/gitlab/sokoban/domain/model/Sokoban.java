@@ -48,4 +48,8 @@ public class Sokoban {
             default -> throw new IllegalStateException("Player cannot be on wall or box");
         };
     }
+
+    public Size getSize() {
+        return map.size();
+    }
 }
