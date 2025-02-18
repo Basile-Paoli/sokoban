@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,20 +48,17 @@ public class FrontDispatcher {
 
     @RequestMapping(path = "", method = RequestMethod.POST)
     String move(@RequestParam(value = "move", required = false) String move, Model model) {
-//        game.execute(Direction.valueOf(move));
+        game.execute(Direction.valueOf(move));
         model.addAttribute("Tiles", toDTO(game.current()));
         return "index.html";
     }
 
-    //
     @RequestMapping(path = "", method = RequestMethod.GET)
     String index(Model model) {
         Sokoban current = game.current();
         model.addAttribute("Tiles", toDTO(current));
         return "index.html";
     }
-
-
 }
 
 

@@ -32,7 +32,7 @@ public class MapBuilder {
     private static State charToState(char c) {
         return switch (c) {
             case '#' -> State.Wall;
-            case '.' | '!' -> State.Storage;
+            case '.', '!', '?' -> State.Storage;
             default -> State.Empty;
         };
     }

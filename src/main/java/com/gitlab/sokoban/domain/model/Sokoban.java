@@ -6,7 +6,6 @@ public class Sokoban {
     private Map map;
     private List<Position> boxes;
     private Position player;
-    private boolean isAlreadyPousser = false;
 
     public Sokoban(Map map, List<Position> boxes, Position player) {
         this.map = map;
@@ -45,7 +44,8 @@ public class Sokoban {
 
     private Tile addPlayerToTile(Tile tile) {
         return switch (tile.state()) {
-            case Empty, Storage -> new Tile(tile.position(), State.Player);
+            case Empty -> new Tile(tile.position(), State.Player);
+            case Storage -> new Tile(tile.position(), State.PlayerOnStorage);
             default -> throw new IllegalStateException("Player cannot be on wall or box");
         };
     }
@@ -54,49 +54,44 @@ public class Sokoban {
         return map.size();
     }
 
-    public boolean move(Tile tile, Direction direction) throws IllegalArgumentException {
-        Position currentPosition = tile.position();
-        Position newPosition = switch (direction) {
-            case UP -> new Position(currentPosition.x(), currentPosition.y() - 1);
-            case DOWN -> new Position(currentPosition.x(), currentPosition.y() + 1);
-            case LEFT -> new Position(currentPosition.x() - 1, currentPosition.y());
-            case RIGHT -> new Position(currentPosition.x() + 1, currentPosition.y());
-            default -> throw new IllegalArgumentException("Direction invalide");
-        };
-
-        if (this.map.isWall(tile.position())) {
-            throw new IllegalArgumentException("On ne peut pas déplacer un mur");
-        }
+    public void move(Direction direction) throws IllegalArgumentException {
+        Position currentPosition = player;
+        Position newPosition = currentPosition.posAt(direction);
 
         if (this.map.isWall(newPosition)) {
-            throw new IllegalArgumentException("On ne peut pas déplacer quelque chose dans un mur");
+            return;
         }
 
-        if (this.map.inside(newPosition)) {
-            throw new IllegalArgumentException("On ne peut pas déplacer quelque en dehors de la map");
+        if (!this.map.inside(newPosition)) {
+            return;
         }
 
-        if (boxes.contains(newPosition) && !isAlreadyPousser) {
-            Tile boxTile = new Tile(newPosition, State.Box);
-            isAlreadyPousser = true;
-            if (!move(boxTile, direction)) {
-                isAlreadyPousser = false;
-                return false;
+        if (boxes.contains(newPosition)) {
+            if (!moveBox(newPosition, direction)) {
+                return;
             }
         }
 
-        // Joueur
         if (currentPosition.equals(this.player)) {
             this.player = newPosition;
-            return true;
+        }
+    }
+
+    public boolean moveBox(Position position, Direction direction) {
+        if (this.map.isWall(position.posAt(direction))) {
+            return false;
         }
 
-        // Boites
-        if (boxes.contains(currentPosition)) {
-            boxes.remove(currentPosition);
-            boxes.add(newPosition);
-            return true;
+        if (boxes.contains(position.posAt(direction))) {
+            return false;
         }
-        return false;
+
+        if (!this.map.inside(position.posAt(direction))) {
+            return false;
+        }
+
+        boxes.remove(position);
+        boxes.add(position.posAt(direction));
+        return true;
     }
 }

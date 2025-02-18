@@ -4,4 +4,5 @@ import com.gitlab.sokoban.domain.model.Sokoban;
 
 public interface GameResources {
     public Sokoban getSokoban();
+    public void setSokoban(Sokoban sokoban);
 }
